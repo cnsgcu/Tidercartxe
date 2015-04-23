@@ -1,9 +1,3 @@
-//var source = new EventSource("/tweet");
-//
-//source.onmessage = function(event) {
-//    console.log(event.data);
-//};
-
 (function() {
     var Topic = React.createClass({
         render: function() {
@@ -25,11 +19,20 @@
         },
 
         componentDidMount: function() {
-            this.ws = new WebSocket("ws://" + window.location.host + "/ws/statistic");
+            this.sse0 = new EventSource("/statistic");
 
-            this.ws.onmessage = function(msg) {
-                var tweetStatistic = JSON.parse(msg.data),
-                    tweetInfos = tweetStatistic["tweetInfos"].sort(
+            this.sse0.onmessage = function(msg) {
+                var tweetStatistic = JSON.parse(msg.data);
+
+                this.props.tweetChart.update(tweetStatistic["total"]);
+            }.bind(this);
+
+            this.sse1 = new EventSource("/tweet");
+
+            this.sse1.onmessage = function(msg) {
+                console.log(msg.data);
+
+                var tweetInfos = JSON.parse(msg.data).sort(
                         function(t1, t2) {
                             return t2["count"] - t1["count"];
                         }
@@ -37,8 +40,6 @@
 
                 var data = this.mergeData(this.state.data, tweetInfos);
                 this.setState({data: data});
-
-                this.props.tweetChart.update(tweetStatistic["total"]);
             }.bind(this);
         },
 
@@ -49,20 +50,22 @@
                     return tweet;
                 }
 
-                tweet["highlight"] = "warning";
-                for(var i = 0; i < old.length; i++) {
-                    if(old[i]["topic"] === tweet["topic"]) {
-                        if (tweet["count"] < old[i]["count"]) {
-                            tweet["highlight"] = "danger";
-                        } else if (tweet["count"] > old[i]["count"]) {
-                            tweet["highlight"] = "success";
-                        } else {
-                            tweet["highlight"] = "";
-                        }
+                tweet["highlight"] = "";
 
-                        break;
-                    }
-                }
+                //tweet["highlight"] = "warning";
+                //for(var i = 0; i < old.length; i++) {
+                //    if(old[i]["topic"] === tweet["topic"]) {
+                //        if (tweet["count"] < old[i]["count"]) {
+                //            tweet["highlight"] = "danger";
+                //        } else if (tweet["count"] > old[i]["count"]) {
+                //            tweet["highlight"] = "success";
+                //        } else {
+                //            tweet["highlight"] = "";
+                //        }
+                //
+                //        break;
+                //    }
+                //}
 
                 return tweet;
             });
@@ -186,4 +189,9 @@
 
     tweetChart.render('chart');
     app.start(document.getElementById("app"), tweetChart);
+
+    var map = new Datamap({
+        element: document.getElementById('map'),
+        scope: 'usa'
+    });
 })();

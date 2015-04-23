@@ -107,6 +107,7 @@ public class RollingCountBolt extends BaseRichBolt
     {
         Object obj = tuple.getValue(0);
         counter.incrementCount(obj);
+
         collector.ack(tuple);
     }
 

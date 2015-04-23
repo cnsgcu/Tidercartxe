@@ -34,27 +34,42 @@
                 type="text/javascript">
         </script>
 
+        <script th:src="@{/resources/js/lib/d3/d3.min.js}"
+                src="../../resources/js/lib/d3/d3.min.js"
+                type="text/javascript">
+        </script>
+        <script th:src="@{/resources/js/lib/topojson/topojson.js}"
+                src="../../resources/js/lib/topojson/topojson.js"
+                type="text/javascript">
+        </script>
+        <script th:src="@{/resources/js/lib/datamaps/datamaps.usa.min.js}"
+                src="../../resources/js/lib/datamaps/datamaps.usa.min.js"
+                type="text/javascript">
+        </script>
+
         <title>Tweet Analysis</title>
     </head>
 
     <body>
-        <!--<div style="display: flex; flex-direction: column;">-->
-            <!--<div style="display: flex; flex-direction: row;">-->
-                <!--<div id="app" style="margin-bottom: -20px;"></div>-->
+        <div style="display: flex; flex-direction: column;">
+            <div style="display: flex; flex-direction: row;">
+                <div id="app"></div>
 
-                <!--<div style="flex-grow: 1; margin: 0 10px; display: flex"></div>-->
-            <!--</div>-->
-
-            <!--<div id="chart"></div>-->
-        <!--</div>-->
-
-        <div style="display: flex; flex-direction: row;">
-            <div id="app" style="margin-top: 80px; margin-left: 5px; min-width: 172px;"></div>
-
-            <div style="flex-grow: 1; margin: 0 10px; display: flex">
-                <div id="chart" style="width: 1100px;"></div>
+                <div style="flex-grow: 1;">
+                    <div id="map"></div>
+                </div>
             </div>
+
+            <div id="chart" style="height: 260px;"></div>
         </div>
+
+        <!--<div style="display: flex; flex-direction: row;">-->
+            <!--<div id="app" style="margin-top: 80px; margin-left: 5px; min-width: 172px;"></div>-->
+
+            <!--<div style="flex-grow: 1; margin: 0 10px; display: flex">-->
+                <!--<div id="chart" style="width: 1100px;"></div>-->
+            <!--</div>-->
+        <!--</div>-->
         <script th:src="@{/resources/js/lib/react/react-with-addons.min.js}"
                 src="../../resources/js/lib/react/react-with-addons.min.js"
                 type="text/javascript">

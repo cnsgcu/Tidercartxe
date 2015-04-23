@@ -49,7 +49,9 @@ public class TwitterSpout extends BaseRichSpout
             @Override
             public void onStatus(Status status)
             {
-                queue.offer(status);
+                if (status.getLang().equalsIgnoreCase("en") && status.getPlace().getCountryCode().equalsIgnoreCase("us")) {
+                    queue.offer(status);
+                }
             }
 
             @Override
